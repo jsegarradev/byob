@@ -59,7 +59,7 @@ def files():
 @main.route("/")
 def home():
 	"""Home page"""
-	return render_template("home.html")
+	return render_template("login.html")
 
 
 @main.route("/docs")
