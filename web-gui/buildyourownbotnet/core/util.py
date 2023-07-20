@@ -76,12 +76,13 @@ def public_ip():
     Return public IP address of host machine
 
     """
-    import sys
-    if sys.version_info[0] > 2:
-        from urllib.request import urlopen
-    else:
-        from urllib import urlopen
-    return urlopen('http://api.ipify.org').read().decode()
+    # import sys
+    # if sys.version_info[0] > 2:
+    #     from urllib.request import urlopen
+    # else:
+    #     from urllib import urlopen
+    # return urlopen('http://api.ipify.org').read().decode()
+    return "192.168.56.20"
 
 
 def local_ip():
@@ -547,7 +548,7 @@ def ftp(source, host=None, user=None, password=None, filetype=None):
             ftp = ftplib.FTP(host=host, user=user, password=password)
         except:
             return "Upload failed - remote FTP server authorization error"
-        addr = public_ip()
+        addr = local_ip()
         if 'tmp' not in ftp.nlst():
             ftp.mkd('/tmp')
         if addr not in ftp.nlst('/tmp'):
