@@ -82,7 +82,7 @@ def public_ip():
     # else:
     #     from urllib import urlopen
     # return urlopen('http://api.ipify.org').read().decode()
-    return "192.168.56.20"
+    return '192.168.56.20'
 
 
 def local_ip():
