@@ -71,18 +71,17 @@ def platform():
     return sys.platform
 
 
-def public_ip():
-    """
-    Return public IP address of host machine
+# def public_ip():
+#     """
+#     Return public IP address of host machine
 
-    """
-    # import sys
-    # if sys.version_info[0] > 2:
-    #     from urllib.request import urlopen
-    # else:
-    #     from urllib import urlopen
-    # return urlopen('http://api.ipify.org').read().decode()
-    return '192.168.56.20'
+#     """
+#     import sys
+#     if sys.version_info[0] > 2:
+#         from urllib.request import urlopen
+#     else:
+#         from urllib import urlopen
+#     return urlopen('http://api.ipify.org').read().decode()
 
 
 def local_ip():
@@ -140,20 +139,20 @@ def administrator():
     return bool(ctypes.windll.shell32.IsUserAnAdmin() if os.name == 'nt' else os.getuid() == 0)
 
 
-def geolocation():
-    """
-    Return latitute/longitude of host machine (tuple)
-    """
-    import sys
-    import json
-    if sys.version_info[0] > 2:
-        from urllib.request import urlopen
-    else:
-        from urllib2 import urlopen
-    response = urlopen('http://ipinfo.io').read()
-    json_data = json.loads(response)
-    latitude, longitude = json_data.get('loc').split(',')
-    return (latitude, longitude)
+# def geolocation():
+#     """
+#     Return latitute/longitude of host machine (tuple)
+#     """
+#     import sys
+#     import json
+#     if sys.version_info[0] > 2:
+#         from urllib.request import urlopen
+#     else:
+#         from urllib2 import urlopen
+#     response = urlopen('http://ipinfo.io').read()
+#     json_data = json.loads(response)
+#     latitude, longitude = json_data.get('loc').split(',')
+#     return (latitude, longitude)
 
 
 def ipv4(address):

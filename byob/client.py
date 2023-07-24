@@ -351,6 +351,9 @@ except ImportError: pass
         with open(path, 'w') as fp:
             fp.write(payload)
          
+        import logging
+        logging.info(options.host)
+        logging.info(options.port)
         s = 'http://{}:{}{}'.format(options.host, int(options.port) + 1, pathname2url(path.replace(os.path.join(os.getcwd(), 'modules'), '')))
         s = urlparse.urlsplit(s)
         url = urlparse.urlunsplit((s.scheme, s.netloc, os.path.normpath(s.path), s.query, s.fragment)).replace('\\','/')

